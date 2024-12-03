@@ -4,6 +4,8 @@ SelfElicit: Your Language Model Secretly Knows Where Are the Contextual Evidence
 
 **SelfElicit** is an inference-time context augmentation framework for context-based Question Answering (QA). It leverages the inherent ability of pretrained language models (LMs) to automatically extract and highlight key evidence from the context passage, helping the LM focus on critical information and providing more accurate and factually grounded answers. The approach is model-agnostic, computationally efficient, and does not require additional training.
 
+**Please see [`run_experiment.ipynb`](run_experiment.ipynb) for a step-by-step guide for running the experiments and visualizing results.**
+
 ## 🌈 SelfElicit Features
 
 - 💡**Automatic Evidence Highlighting**: SelfElicit uses attention patterns in LMs to automatically identify crucial evidence within the context, thereby helping the model to focus on relevant information.

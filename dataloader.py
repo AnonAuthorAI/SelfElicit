@@ -7,7 +7,34 @@ from utils import norm_text
 
 
 def load_data(dataset_name, n_samples=1000, random_state=42, verbose=True):
+    """
+    Load a dataset by name and return a preprocessed dataset object.
+
+    Parameters
+    ----------
+    dataset_name : str
+        Name of the dataset to load (e.g., "HotpotQA", "NewsQA").
+    n_samples : int, optional (default=1000)
+        Number of samples to load from the dataset.
+    random_state : int, optional (default=42)
+        Random seed for shuffling.
+    verbose : bool, optional (default=True)
+        Whether to print progress messages.
+
+    Returns
+    -------
+    data : object
+        An instance of the dataset class corresponding to the selected dataset.
+
+    Raises
+    ------
+    ValueError
+        If the specified dataset name is invalid.
+    """
+    # Set default parameters for dataset loading
     kwargs = {"n_samples": n_samples, "random_state": random_state, "verbose": verbose}
+
+    # Match dataset name to the appropriate class
     if dataset_name == "HotpotQA":
         data = HotpotQA(**kwargs)
     elif dataset_name == "NewsQA":
@@ -23,6 +50,24 @@ def load_data(dataset_name, n_samples=1000, random_state=42, verbose=True):
 
 
 class HotpotQA:
+    """
+    A class for loading and processing the HotpotQA dataset.
+
+
+    Parameters
+    ----------
+    n_samples : int, optional
+        Number of samples to load.
+
+    shuffle : bool, optional (default=True)
+        Whether to shuffle the dataset.
+
+    random_state : int, optional (default=42)
+        Random seed for shuffling.
+
+    verbose : bool, optional (default=True)
+        Whether to print progress messages.
+    """
 
     HF_DATASET = "hotpotqa/hotpot_qa"
 
@@ -79,6 +124,25 @@ class HotpotQA:
         return self.dataset[idx]
 
     def get_context_question(self, idx, use_gold=True, norm=False):
+        """
+        Get the context and question for a specific index.
+
+        Parameters
+        ----------
+        idx : int
+            Index of the sample.
+        use_gold : bool, optional (default=True)
+            Whether to use the gold context (supporting facts).
+        norm : bool, optional (default=False)
+            Whether to normalize the context text.
+
+        Returns
+        -------
+        context : str
+            The context text.
+        question : str
+            The question text.
+        """
         if use_gold:
             context = self.get_gold_context(idx)
         else:
@@ -157,6 +221,26 @@ class HotpotQA:
 
 
 class MRQA:
+    """
+    A class for loading and processing datasets under the MRQA framework.
+
+    Parameters
+    ----------
+    subset : str
+        Subset of the MRQA dataset to load (e.g., "NewsQA", "TriviaQA-web").
+
+    n_samples : int, optional
+        Number of samples to load.
+
+    shuffle : bool, optional (default=True)
+        Whether to shuffle the dataset.
+
+    random_state : int, optional (default=42)
+        Random seed for shuffling.
+
+    verbose : bool, optional (default=True)
+        Whether to print progress messages.
+    """
 
     HF_DATASET_NAME = "mrqa-workshop/mrqa"
     SUBSETS = [
@@ -236,6 +320,23 @@ class MRQA:
         return self.dataset[idx]
 
     def get_context_question(self, idx, norm=False):
+        """
+        Get the context and question for a specific index.
+
+        Parameters
+        ----------
+        idx : int
+            Index of the sample.
+        norm : bool, optional (default=False)
+            Whether to normalize the context text.
+
+        Returns
+        -------
+        context : str
+            The context text.
+        question : str
+            The question text.
+        """
         example = self[idx]
         context = example["context"]
         if norm:
